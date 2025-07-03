@@ -1,11 +1,34 @@
-title>Dis ou Engage</title>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dis ou Engage</title>
   <style>
     body { font-family: Arial; text-align: center; background: #f4f4f4; padding: 20px; }
     #game { display: none; }
-    button { padding: 10px 20px; margin: 10px; font-size: 16px; border-radius: 8px; border: none; background: #007bff; color: white; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #007bff;
+      color: white;
+    }
     button:hover { background: #0056b3; }
-    input, textarea { padding: 10px; margin: 5px; border-radius: 5px; width: 80%; max-width: 400px; }
-    #challenge { color: darkred; font-weight: bold; margin-top: 20px; }
+    textarea {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      width: 80%;
+      max-width: 400px;
+    }
+    #challenge {
+      color: darkred;
+      font-weight: bold;
+      margin-top: 20px;
+      min-height: 40px;
+    }
   </style>
 </head>
 <body>
@@ -32,35 +55,25 @@ title>Dis ou Engage</title>
       "As-tu déjà stalké un ex ?",
       "Quel joueur ici t’intrigue le plus ?",
       "Quel est ton fantasme le plus bizarre ?",
-      "As-tu déjà été attiré(e) par quelqu’un ici ?",
-      "As-tu déjà menti à propos de ta vie sexuelle ?",
-      "Quel est ton secret inavoué ?",
-      "As-tu déjà triché en amour ou en jeu ?",
-      "Quelle est la chose la plus honteuse que tu aies faite ?",
-      "Si tu devais embrasser un joueur, qui choisirais-tu ?"
+      "As-tu déjà été attiré(e) par quelqu’un ici ?"
     ];
 
     const challenges = [
-      "Fais une imitation d’un animal au choix.",
-      "Chante le générique d’un dessin animé.",
-      "Fais 10 squats en rythme.",
-      "Change ta voix pendant 2 tours.",
-      "Fais un compliment gênant à un autre joueur.",
-      "Appelle quelqu’un et dis-lui que tu l’aimes.",
-      "Fais une danse bizarre pendant 15 secondes.",
-      "Parle en chantant jusqu’à ton prochain tour.",
-      "Avoue une recherche Google honteuse récente.",
-      "Mets-toi un coussin sur la tête pendant 1 tour."
+      "Fais une imitation d’un animal.",
+      "Chante une chanson connue.",
+      "Fais une grimace pendant 10 secondes.",
+      "Parle avec une voix bizarre pendant 2 tours.",
+      "Danse sans musique 15 secondes."
     ];
 
     let players = [];
     let currentPlayer = 0;
+    let refuseMode = false;
 
     function startGame() {
       const input = document.getElementById("playersInput").value.trim();
-      if (!input) return alert("Ajoute au moins un joueur.");
       players = input.split("\n").map(p => p.trim()).filter(p => p !== "");
-      if (players.length < 2) return alert("Ajoute au moins 2 joueurs.");
+      if (players.length < 2) return alert("Ajoute au moins 2 joueurs !");
       document.getElementById("setup").style.display = "none";
       document.getElementById("game").style.display = "block";
       nextTurn();
@@ -68,8 +81,9 @@ title>Dis ou Engage</title>
 
     function nextTurn() {
       document.getElementById("challenge").innerText = "";
+      refuseMode = false;
       const player = players[currentPlayer];
-      document.getElementById("playerTurn").innerText = "👉 C’est à " + player + " de jouer !";
+      document.getElementById("playerTurn").innerText = "👉 À " + player + " de jouer !";
       document.getElementById("question").innerText = questions[Math.floor(Math.random() * questions.length)];
     }
 
@@ -79,7 +93,11 @@ title>Dis ou Engage</title>
     }
 
     function refuse() {
-      const challenge = challenges[Math.floor(Math.random() * challenges.length)];
-      document.getElementById("challenge").innerText = "🔥 Gage : " + challenge;
-      currentPlayer = (currentPlayer + 1) % players.length;
-      nextTurn();
+      const gage = challenges[Math.floor(Math.random() * challenges.length)];
+      document.getElementById("challenge").innerText = "🔥 Gage : " + gage;
+      document.getElementById("question").innerText = "✅ Clique sur 'Je réponds' pour continuer.";
+    }
+  </script>
+
+</body>
+</html>
